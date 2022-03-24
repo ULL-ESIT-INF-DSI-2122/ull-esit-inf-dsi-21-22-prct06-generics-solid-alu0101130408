@@ -5,8 +5,8 @@ import {Pokemon} from '../src/ejercicio-1/subclases/pokemon';
 import {DC} from '../src/ejercicio-1/subclases/dc';
 import {StarWars} from '../src/ejercicio-1/subclases/starwars';
 import {PatrullaCanina} from '../src/ejercicio-1/subclases/patrullacanina';
+import {RegistroLuchadores} from '../src/ejercicio-1/registro';
 import {Combat} from '../src/ejercicio-1/combat';
-
 
 const Pikachu: Pokemon = new Pokemon('Pikachu', 6, 0.4, 'Pika-Pika', 'Pokemon', {vida: 350, ataque: 55, defensa: 40, velocidad: 90}, 'electrico');
 const Deadpool: Marvel = new Marvel('Deadpool', 80, 1.80, 'COGABUNGA', 'Marvel', {vida: 500, ataque: 70, defensa: 80, velocidad: 40}, 'hiper regeneración');
@@ -19,6 +19,7 @@ const combate2: Combat = new Combat(Deadpool, Joker);
 const combate3: Combat = new Combat(kyloRen, Marshall);
 const combate4: Combat = new Combat(Marshall, Pikachu);
 
+const registroCombatientes: RegistroLuchadores = new RegistroLuchadores([Pikachu, Deadpool, Joker, kyloRen, Marshall]);
 
 describe('Pruebas unitarias de la clase Pokemon', ()=> {
   it('Test de instancia de la clase pokemon', ()=>{
@@ -98,5 +99,12 @@ describe('Pruebas unitarias de la clase Combate', ()=> {
     expect(combate2.combateLuchadores()).to.be.eql('Deadpool');
     expect(combate3.combateLuchadores()).to.be.eql('Kylo Ren');
     expect(combate4.combateLuchadores()).to.be.eql('Pikachu');
+  });
+});
+
+
+describe('Pruebas unitarias de la clase Registro', ()=> {
+  it('Test de metodos de la clase registro', ()=>{
+    expect(registroCombatientes.printBDD()).to.be.eql('Pikachu, Deadpool, El Joker, Kylo Ren, Marshall');
   });
 });
