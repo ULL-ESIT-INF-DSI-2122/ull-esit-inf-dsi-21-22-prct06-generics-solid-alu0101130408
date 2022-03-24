@@ -1,7 +1,7 @@
 import {Fighter, fighterAttributes} from "./fighter";
 
 /**
- * Sub Clase  que hereda de la super Clase "Fighter" y define los atributos y el universo de un luchador de Marvel.
+ * Sub Clase Marvel que hereda de la super Clase "Fighter" y define los atributos y el universo de un luchador de Marvel.
  * @param nombre Nombre del personaje de Marvel.
  * @param peso peso del personaje de Marvel.
  * @param altura altura del personaje de Marvel.

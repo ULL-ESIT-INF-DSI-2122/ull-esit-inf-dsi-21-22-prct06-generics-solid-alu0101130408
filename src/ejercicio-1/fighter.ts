@@ -1,5 +1,9 @@
 /**
  * Objeto que define los atributos de los luchadores.
+ * @param vida Vida del luchador, de tipo numerico.
+ * @param ataque daño que ocaciona un personaje, de tipo numerico.
+ * @param defensa capacidad de aguante ante ataques de un personaje, de tipo numerico.
+ * @param velocidad velocidad con la que ataca un personaje, de tipo numerico.
  */
 export type fighterAttributes = {
   vida: number,
