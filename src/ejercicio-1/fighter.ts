@@ -22,7 +22,7 @@ export type fighterAttributes = {
  */
 
 export abstract class Fighter {
-  constructor(private readonly nombre: string, private readonly peso:number, private readonly altura: number, private readonly frase: string, private estadisticaLuchador: fighterAttributes) {
+  constructor(private readonly nombre: string, private readonly peso:number, private readonly altura: number, private readonly frase: string, private universo:string, private estadisticaLuchador: fighterAttributes) {
     this.nombre = nombre;
     this.peso = peso;
     this.altura = altura;
@@ -59,7 +59,13 @@ export abstract class Fighter {
   public getFraseCaracteristica() {
     return this.frase;
   }
-
+  /**
+   * Funcion que devuelve el universo perteneciente del luchador.
+   * @returns el universo al que pertenece el luchador
+   */
+  public getUniverso() {
+    return this.universo;
+  }
   /**
    * Metodo publico que devuelve los atributos (estadisticas) del luchador.
    * @returns devuelve los atributos tanto la vida, el ataque, la defensa o la velocidad del luchador.

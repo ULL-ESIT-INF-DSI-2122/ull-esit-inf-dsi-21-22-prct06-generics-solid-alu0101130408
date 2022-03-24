@@ -1,5 +1,4 @@
-import {Fighter, fighterAttributes} from "./fighter";
-
+import {Fighter, fighterAttributes} from "../fighter";
 /**
  * Sub Clase Pokemon que hereda de la super Clase "Fighter" y define los atributos y el universo de un luchador de Pokemon.
  * @param nombre Nombre del pokemon.
@@ -9,16 +8,9 @@ import {Fighter, fighterAttributes} from "./fighter";
  * @param universo Universo al que pertenece el luchador, inicializado a pokemon.
  */
 export class Pokemon extends Fighter {
-  constructor(nombre:string, peso: number, altura: number, frase: string, estadisticaLuchador: fighterAttributes, private readonly tipo: string, private readonly universo: string = 'Pokemon') {
-    super(nombre, peso, altura, frase, estadisticaLuchador);
+  constructor(nombre:string, peso: number, altura: number, frase: string, universo: string, estadisticaLuchador: fighterAttributes, private readonly tipo: string) {
+    super(nombre, peso, altura, frase, universo, estadisticaLuchador);
     this.tipo = tipo;
-  }
-  /**
-   * Funcion que analiza el universo de un luchador.
-   * @returns devuelve el universo perteneciente del luchador.
-   */
-  getUniverso() {
-    return this.universo;
   }
 
   /**
