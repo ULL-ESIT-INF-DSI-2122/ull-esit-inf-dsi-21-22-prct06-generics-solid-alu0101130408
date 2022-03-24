@@ -9,9 +9,8 @@ import {Fighter, fighterAttributes} from "./fighter";
  * @param universo Universo al que pertenece el luchador, inicializado a Marvel.
  */
 export class Marvel extends Fighter {
-  constructor(nombre:string, peso: number, altura: number, frase: string, estadisticaLuchador: fighterAttributes, private readonly universo: string) {
+  constructor(nombre:string, peso: number, altura: number, frase: string, estadisticaLuchador: fighterAttributes, private readonly universo: string = 'Marvel') {
     super(nombre, peso, altura, frase, estadisticaLuchador);
-    this.universo = "Marvel";
   }
   /**
    * Funcion que analiza el universo de un luchador.

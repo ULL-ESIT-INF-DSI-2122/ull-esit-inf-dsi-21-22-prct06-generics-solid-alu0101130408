@@ -1,7 +1,7 @@
 import 'mocha';
 import {expect} from 'chai';
 import {PrintableCollection} from '../src/modificacion/printableCollection';
-import { NumericPrintableCollection } from '../src/modificacion/numericPrintableColecction';
+import {NumericPrintableCollection} from '../src/modificacion/numericPrintableColecction';
 
 /* const collection = new PrintableCollection([1, 2, 3, 4, 5]);
 
