@@ -1,4 +1,14 @@
 /**
+ * Objeto que define los atributos de los luchadores.
+ */
+export type fighterAttributes = {
+  vida: number,
+  ataque: number,
+  defensa: number,
+  velocidad: number,
+};
+
+/**
  * Super Clase abstracta que define la forma de instancia de un Luchador, además de definir a traves de un objeto sus atributos
  * @param nombre Nombre del luchador.
  * @param peso peso del luchador.
@@ -8,22 +18,10 @@
  */
 
 export abstract class Fighter {
-  private fighterAttributes = {
-    vida: 0,
-    ataque: 0,
-    defensa: 0,
-    velocidad: 0,
-  };
-
-  constructor(private readonly nombre: string, private readonly peso:number, private readonly altura: number, private readonly frase: string, fighterAttributes: [number, number, number, number]) {
+  constructor(private readonly nombre: string, private readonly peso:number, private readonly altura: number, private readonly frase: string, private estadisticaLuchador: fighterAttributes) {
     this.nombre = nombre;
     this.peso = peso;
     this.altura = altura;
-
-    this.fighterAttributes.vida = fighterAttributes[0];
-    this.fighterAttributes.ataque = fighterAttributes[1];
-    this.fighterAttributes.defensa = fighterAttributes[2];
-    this.fighterAttributes.velocidad = fighterAttributes[3];
   }
 
   /**
@@ -63,7 +61,7 @@ export abstract class Fighter {
    * @returns devuelve los atributos tanto la vida, el ataque, la defensa o la velocidad del luchador.
    */
   public getAtributos() {
-    return this.fighterAttributes;
+    return this.estadisticaLuchador;
   }
 
   /**
@@ -71,6 +69,6 @@ export abstract class Fighter {
    * @param vidaActual Vida nueva a actualizar del luchador.
    */
   public setVida(vidaActual: number) {
-    this.fighterAttributes.vida = vidaActual;
+    this.estadisticaLuchador.vida = vidaActual;
   }
 }
