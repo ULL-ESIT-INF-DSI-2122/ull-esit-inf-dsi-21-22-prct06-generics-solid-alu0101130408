@@ -1,24 +1,28 @@
-import {BasicStreameableCollection} from "./basiStremeableCollection";
+import {BasicStreameableCollection} from "../basiStremeableCollection";
+import {documental} from "../objects/objectDocumentary";
 
-export type documental = {
-  titulo: string;
-  director: string;
-  anio: number;
-  duracion: number;
-  pais: string;
-  fotografia: string;
-  distribuidora: string;
-}
-
+/**
+ * Clase encargada de representar una coleccion de documentales.
+ * @param collection coleccion de documentales.
+ */
 export class Documentary extends BasicStreameableCollection <documental> {
   constructor(protected collection: documental[]) {
     super(collection);
   }
-
+  /**
+   * Funcion encargada de obtener la coleccion de Documentales.
+   * @returns la coleccion de documentales almacenados.
+   */
   getCollectionItem(): documental[] {
     return this.collection;
   }
 
+  /**
+   * Funcion encargada de buscar a través del parametro de búsqueda, un valor dado en la coleccion de Documentales.
+   * @param parametro Parametro que se desea filtrar, si es por titulo, año, director ...
+   * @param valor Valor que se quiere buscar en la coleccion, si el titulo es 'lo que el pulpo me enseño'...
+   * @returns devuelve un array con toda la informacion referente a esa busqueda.
+   */
   search(parametro: string, valor: string): documental[] {
     let busqueda: documental[] = [];
     switch (parametro) {
@@ -38,11 +42,15 @@ export class Documentary extends BasicStreameableCollection <documental> {
         busqueda = this.getCollectionItem().filter((item) => (item.pais == valor));
         return busqueda;
         break;
+      case 'duracion':
+        busqueda = this.getCollectionItem().filter((item) => (item.duracion.toString() == valor));
+        return busqueda;
+        break;
       case 'fotografia':
         busqueda = this.getCollectionItem().filter((item) => (item.fotografia == valor));
         return busqueda;
         break;
-      case 'productora':
+      case 'distribuidora':
         busqueda = this.getCollectionItem().filter((item) => (item.distribuidora == valor));
         return busqueda;
         break;
