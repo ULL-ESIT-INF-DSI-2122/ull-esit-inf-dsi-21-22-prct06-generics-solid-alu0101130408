@@ -70,6 +70,9 @@ Antes de comenzar a la implementación de las soluciones de los dos problemas pr
   * [La Sal de la Tierra](https://www.filmaffinity.com/es/film907354.html)
   * [Searching for Sugar Man](https://www.filmaffinity.com/es/film625347.html)
 
+* [Cifrado de Cesar](https://es.wikipedia.org/wiki/Cifrado_C%C3%A9sar)
+* [Cifrado de vigenere](https://es.wikipedia.org/wiki/Cifrado_de_Vigen%C3%A8re)
+* [Metodo CharArt javascript](https://guru99.es/string-charat-method-java/)
 ---
 Autor: Joel Francisco Escobar Socas - 2021/2022.
 ---
