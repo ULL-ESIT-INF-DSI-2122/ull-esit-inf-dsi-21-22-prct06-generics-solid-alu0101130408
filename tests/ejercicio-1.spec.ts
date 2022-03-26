@@ -9,7 +9,7 @@ import {RegistroLuchadores} from '../src/ejercicio-1/registro';
 import {Combat} from '../src/ejercicio-1/combat';
 
 const Pikachu: Pokemon = new Pokemon('Pikachu', 6, 0.4, 'Pika-Pika', 'Pokemon', {vida: 350, ataque: 55, defensa: 40, velocidad: 90}, 'electrico');
-const Deadpool: Marvel = new Marvel('Deadpool', 80, 1.80, 'COGABUNGA', 'Marvel', {vida: 500, ataque: 70, defensa: 80, velocidad: 40}, 'hiper regeneración');
+const Deadpool: Marvel = new Marvel('Deadpool', 80, 1.80, 'CHIMICHANGA', 'Marvel', {vida: 500, ataque: 70, defensa: 80, velocidad: 40}, 'hiper regeneración');
 const Joker: DC = new DC('El Joker', 72, 1.82, 'HA-HA-HA', 'DC', {vida: 250, ataque: 60, defensa: 90, velocidad: 55}, 'Inmunidad al Veneno');
 const kyloRen = new StarWars('Kylo Ren', 89, 1.89, 'No estás solo', 'Star Wars', {vida: 400, ataque: 100, defensa: 57, velocidad: 22}, 'Oscuro', 'Rojo');
 const Marshall = new PatrullaCanina('Marshall', 28, 0.64, 'A toda Mecha', 'Patrulla Canina', {vida: 700, ataque: 200, defensa: 100, velocidad: 110}, 'Dalmata' );
@@ -44,7 +44,7 @@ describe('Pruebas unitarias de la clase Marvel', ()=> {
     expect(Deadpool.getNombre()).to.be.eql('Deadpool');
     expect(Deadpool.getAtributos().vida).to.be.eql(500);
     expect(Deadpool.getUniverso()).to.be.eql('Marvel');
-    expect(Deadpool.getFraseCaracteristica()).to.be.eql('COGABUNGA');
+    expect(Deadpool.getFraseCaracteristica()).to.be.eql('CHIMICHANGA');
     expect(Deadpool.getPoder()).to.be.eql('hiper regeneración');
   });
 });
