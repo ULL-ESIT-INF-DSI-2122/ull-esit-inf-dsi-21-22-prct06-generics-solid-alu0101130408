@@ -2,7 +2,30 @@
 	"entryPoints": [
         "./src/modificacion/collectable.ts",
 		"./src/modificacion/printableCollection.ts",
-		"./src/modificacion/printable.ts"
+		"./src/modificacion/printable.ts",
+
+		"./src/ejercicio-1/fighter.ts",
+		"./src/ejercicio-1/registro.ts",
+		"./src/ejercicio-1/combat.ts",
+		"./src/ejercicio-1/subclases/pokemon.ts",
+		"./src/ejercicio-1/subclases/marvel.ts",
+		"./src/ejercicio-1/subclases/dc.ts",
+		"./src/ejercicio-1/subclases/starwars.ts",
+		"./src/ejercicio-1/subclases/patrullacanina.ts",
+
+		"./src/ejercicio-2/stremeable.ts",
+		"./src/ejercicio-2/basiStremeableCollection.ts",
+		"./src/ejercicio-2/objects/objectDocumentary.ts",
+		"./src/ejercicio-2/objects/objetSerie.ts",
+		"./src/ejercicio-2/objects/objectFilm.ts",
+		"./src/ejercicio-2/subclass/serie.ts",
+		"./src/ejercicio-2/subclass/film.ts",
+		"./src/ejercicio-2/subclass/documentary.ts",
+
+		"./src/ejercicio-3/cifrado.ts",
+		"./src/ejercicio-3/cifradoCesar.ts",
+		"./src/ejercicio-3/descifrado.ts"
+
 	], 
 	"out": "./docs/typedoc"
 }
