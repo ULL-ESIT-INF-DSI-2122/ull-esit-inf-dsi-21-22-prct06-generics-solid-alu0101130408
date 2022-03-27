@@ -62,9 +62,4 @@ export abstract class Cypher {
   public setCypherMessage(nuevoMensaje: string):string {
     return this.mensaje = nuevoMensaje;
   }
-
-  /**
-   * metodo encargado de imprimir.
-   */
-  // abstract print(): void;
 }

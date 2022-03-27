@@ -959,11 +959,173 @@ describe('Pruebas Unitarias de la clase Documental (Documentary)', ()=>{
 ```
 #### 2.3 Ejercicio 3: El cifrado indescifrable.
 
+Para el ejercicio 3 he seguido el siguiente diseño:
+* cifradoCesar.ts: Clase padre o super clase abstracta que define el funcionamiento y los parametros requeridos para cifrar un mensaje a traves del algoritmo de cifrado de Cesar. 
+* cifrado.ts: Clase hija que hereda de la clase padre e implementa el cifrado de un mensaje con una clave en un alfabeto
+* descifrado.ts: Clase hija que hereda de la clase padre e implementa la decodificacion de un mensaje encriptado con una clave en un alfabeto.
 
+* Clase Padre **Cypher**:
+  Para crear la clase padre he obtado por implementar una clase abstracta que reciba e inicialize un alfabeto, un mensaje y una clave, que serán los tres atributos de tipo string y posteriormente se definen una serie de getters para obtener estas tres variables y el tamaño de los mismas además de su valor. 
+
+```TypeScript
+export abstract class Cypher {
+  constructor(protected alfabeto:string, protected mensaje: string, protected clave:string) {
+    this.alfabeto = alfabeto;
+    this.mensaje = mensaje;
+    this.clave = clave;
+  }
+  getAlfabeto(): string {
+    return this.alfabeto;
+  }
+
+  public getClave(): string {
+    return this.clave;
+  }
+
+  public getMensaje(): string {
+    return this.mensaje;
+  }
+
+  public sizeAlphabet(): number {
+    return this.alfabeto.length;
+  }
+
+  public sizeClave(): number {
+    return this.clave.length;
+  }
+
+  public sizeMensaje(): number {
+    return this.mensaje.length;
+  }
+
+  public setCypherMessage(nuevoMensaje: string):string {
+    return this.mensaje = nuevoMensaje;
+  }
+}
+
+```
+* Clase Hija **Cifrado**:
+Para la funcionalidad de cifrar un mensaje he decidido crear una nueva clase tal y como se recomienda en los principios SOLID, esta clase hereda de la clase padre *Cypher* y se implementa la funcion propia de clase *cifrar*, esta cifrara en base al algoritmo de vigenere que es una modificacion del cifrado de cesar, si esta interesado le recomiendo que lea la bibliografia situada en apartados posteriores.
+
+Primero inicializamos el mensaje y la clave en el constructor eliminando cualquier espacio u mayuscula que haya podido introducir el usuario a través del metodo de Javascript *replace*.
+
+la función de cifrado  lo que hace es definir un string que va a retornar como la el mensaje cifrado. Para cifrar el mensaje con la clave lo que se hace es recorrer el mensaje que se ha introducido y sumamos dentro de un bucle la posicion actual del iterador en el mensaje con la posicion de la letra de la clave y posteriormente aplicamos el modulo al tamaño del alfabeto por si hay desbordamiento. una vez calculado e introducido con el push todas las posiciones sumadas. recorremos este vector y sustituimos el numero por el caracter en el alfabeto de esa posicion gracias al metodo *charArt* y concadenamos una letras tras otra al string resultante, una vez finalizado devolvemos el mismo que será el mensaje cifrado a través de este algoritmo.
+
+```TypeScript
+import {Cypher} from "./cifradoCesar";
+
+export class Cifrado extends Cypher {
+  constructor(protected alfabeto: string, protected mensaje: string, protected clave:string ) {
+    super(alfabeto, mensaje, clave);
+    this.mensaje = this.mensaje.replace(/ /g, '').toLowerCase();
+    this.clave = this.clave.replace(/ /g, '').toLowerCase();
+  }
+
+  public cifrar(): string {
+    let mensajeCifrado: string = '';
+    let modulo: number = 0;
+    let resultado: string = '';
+    const suma: number[] = [];
+    for (let i: number = 0; i < this.sizeMensaje(); i++) {
+      modulo = (this.alfabeto.search(this.mensaje[i]) + this.alfabeto.search(this.clave[i]) + 1) % this.sizeAlphabet();
+      suma.push(modulo);
+    }
+
+    for (let i:number = 0; i < suma.length; i++) {
+      mensajeCifrado = mensajeCifrado + this.alfabeto.charAt(suma[i]);
+    }
+    resultado = this.setCypherMessage(mensajeCifrado);
+    return resultado;
+  }
+}
+```
+* Clase Hija **Descifrado**:
+La idea para implementar el descifrado de un mensaje es similar a la del cifrado pero en vez de sumar las posiciones se restan las posiciones. De forma mas especifica se recorre el mensaje cifrado que se ha introducido y se resta la posicion que este tiene el el alfabeto con la del caracter de la clave. una vez almacenada esta resta observamos si el numero es negativo o es positivo, si es negativo entonces aplicamos una suma con el tamaño del alfabeto para ponerlo en modulo, en caso de no ser negativo, simplemente se le aplica el modulo como se hizo anteriormente  e indexamos este valor en un array numerico. de esta forma tal y como se explico en la clase anterior se recorre este array numerico y se sustituyen los numeros por las posiciones dentro del alfabeto y se devuelve el resultado que será el mensaje original (descifrado).
+```TypeScript
+import {Cypher} from "./cifradoCesar";
+
+export class Descifrado extends Cypher {
+  constructor(protected alfabeto: string, protected mensaje: string, protected clave:string ) {
+    super(alfabeto, mensaje, clave);
+    this.mensaje = this.mensaje.replace(/ /g, '').toLowerCase();
+    this.clave = this.clave.replace(/ /g, '').toLowerCase();
+  }
+
+  public descifrar(): string {
+    let mensajeDescifrado: string = '';
+    let modulo: number = 0;
+    let resultado: string = '';
+    const resta: number[] = [];
+    for (let i: number = 0; i < this.sizeMensaje(); i++) {
+      modulo = (this.alfabeto.search(this.mensaje[i]) - this.alfabeto.search(this.clave[i]) - 1);
+      if (modulo >= 0) {
+        modulo = modulo % this.sizeAlphabet();
+        resta.push(modulo);
+      } else {
+        modulo = modulo + this.sizeAlphabet();
+        resta.push(modulo);
+      }
+    }
+
+    for (let i:number = 0; i < resta.length; i++) {
+      mensajeDescifrado = mensajeDescifrado + this.alfabeto.charAt(resta[i]);
+    }
+    resultado = this.setCypherMessage(mensajeDescifrado);
+    return resultado;
+  }
+}
+
+```
+
+Para la realizacion de las pruebas unitarias de esta clase de han definido dos mensajes que se quieren cifrar y dos mensajes que se quieren descifrar. para ellos creamos estos objetos recogidos dentro del alfabeto español y se comprueba de que todos los objetos existan y que el cifrado de lo que se espera y que el descifrado devuelva el mensaje original que se introdujo al principio.
+
+```TypeScript
+import 'mocha';
+import {expect} from 'chai';
+import {Cifrado} from '../src/ejercicio-3/cifrado';
+import {Descifrado} from '../src/ejercicio-3/descifrado';
+
+const cifrarMensaje1: Cifrado = new Cifrado('abcdefghijklmnopqrstuvwxyz', 'Hola mundo', 'clave');
+const cifrarMensaje2: Cifrado = new Cifrado('abcdefghijklmnopqrstuvwxyz', 'Me llamo Joel', 'gato');
+
+const descifrarMessage1: Descifrado = new Descifrado('abcdefghijklmnopqrstuvwxyz', 'kamwrvoep', 'clave');
+const descifrarMessage2: Descifrado = new Descifrado('abcdefghijklmnopqrstuvwxyz', 'tffabnpkpfm', 'gato');
+
+describe('Pruebas Unitarias de la clase Cifrado', ()=>{
+  it('Test de instancia de la clase cifrado', ()=> {
+    expect(cifrarMensaje1).to.exist;
+    expect(cifrarMensaje1).not.null;
+    expect(cifrarMensaje2).to.exist;
+    expect(cifrarMensaje2).not.null;
+  });
+  it('Test de prueba de funcionamiento de la clase cifrado para el primer cifrado', ()=> {
+    expect(cifrarMensaje1.cifrar()).to.be.eql('kamwrvoep');
+  });
+  it('Test de prueba de funcionamiento de la clase cifrado para el segundo cifrado', ()=> {
+    expect(cifrarMensaje2.cifrar()).to.be.eql('tffabnpkpfm');
+  });
+});
+
+describe('Pruebas Unitarias de la clase Descifrado', ()=>{
+  it('Test de instancia de la clase Descifrado', ()=> {
+    expect(descifrarMessage1).to.exist;
+    expect(descifrarMessage1).not.null;
+    expect(descifrarMessage2).to.exist;
+    expect(descifrarMessage2).not.null;
+  });
+  it('Test de prueba de funcionamiento de la clase cifrado para el primer cifrado', ()=> {
+    expect(descifrarMessage1.descifrar()).to.be.eql('holamundo');
+  });
+  it('Test de prueba de funcionamiento de la clase cifrado para el segundo cifrado', ()=> {
+    expect(descifrarMessage2.descifrar()).to.be.eql('mellamojoel');
+  });
+});
+
+```
 
 ### Problemas y Soluciones.
 
-* El principal problema que me he encontrado durante estos ejercicios han sido por culpa mia de no entender ni razonar aquello que pone en el enunciado, llegando a atascarme varias veces sin motivo.
+* No he encontrado ningún problema que resaltar, la mayor parte fue por no aplicar una perspectiva adecuada al problema. 
 
 ### Bibliografía.
 * [Guión de la Práctica 6](https://ull-esit-inf-dsi-2122.github.io/prct06-generics-solid/)
@@ -995,6 +1157,7 @@ describe('Pruebas Unitarias de la clase Documental (Documentary)', ()=>{
 * [Cifrado de Cesar](https://es.wikipedia.org/wiki/Cifrado_C%C3%A9sar)
 * [Cifrado de vigenere](https://es.wikipedia.org/wiki/Cifrado_de_Vigen%C3%A8re)
 * [Metodo CharArt javascript](https://guru99.es/string-charat-method-java/)
+
 ---
 Autor: Joel Francisco Escobar Socas - 2021/2022.
 ---
