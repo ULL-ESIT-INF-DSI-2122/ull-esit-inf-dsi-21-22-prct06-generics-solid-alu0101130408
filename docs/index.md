@@ -636,6 +636,152 @@ describe('Pruebas unitarias de la clase Patrulla Canina', ()=> {
 
 #### 2.2 Ejercicio 2: DSIflix.
 
+Para la resolución de este ejercicio he decidido utilizar la siguiente jerarquía:
+
+* Stremeable.ts: es una interfaz que especifica los métodos a implementar para trabajar con una colección Streameable.
+* basicStremeableCollection.ts: Clase abstracta padre o super clase que implementa los metodos de una coleccion streameable y define dos metodos abstractos. 
+* Objects/: directorio donde iran alojados todos los objetos que definen las propiedades de cada tipo de colección.
+  * objectDocumentary.ts: fichero que define las propiedades que recogera un objeto de tipo documental.
+  * objectFilm.ts: fichero que define las propiedades que recogera un objeto de tipo pelicula.
+  * objectSerie.ts: fichero que define las propiedades que recogera un objeto de tipo serie.
+
+* subclass/: En este directorio iran las diferentes subclases o clases hijas que heredan de la clases padre basicStreameableCollection y definen los metodos abstractos del mismo.
+  * documentary.ts: Fichero que implementa una coleccion de documentales.
+  * film.ts: Fichero que implementa una coleccion de peliculas.
+  * serie.ts: Fichero que implementa una coleccion de series.
+
+* interfaz **Stremeable**: 
+Se define la interfaz encargada de definir un método que se encargue de añadir nuevos elementos a la coleccion, obtener el elemento de una coleccion y obtener el numero total de elementos que tiene una colección.
+
+```TypeScript
+
+export interface Stremeable <T> {
+  addItem(newItem: T): void;
+  getCollectionItem(): T[]
+  getNumberOfItems(): number;
+}
+```
+
+* Clase Padre **basicStreameableCollection**:
+Definimos una clase abstracta que implemente desde la interfaz Streameable una collección que será un array de elementos de cualquier tipo generico de datos. además los metodos que hereden de esta clase tiene que implementar un metodo *search* que permita buscar dentro de la coleccion segun ciertos filtros y un metodo *getcollecionitem* que permita obtener un elemento de la coleccion posteriormente se implementan los metodos restantes de la interfaz Streameable, que permita tanto añadir un nuevo iteam a la coleccion como obtener el numero de items que componen la la collecion, cabe destacar que cuando digo items, me refiero a series, peliculas y documentales que será lo que se almacene.
+
+```TypeScript
+import {Stremeable} from "./stremeable";
+
+export abstract class BasicStreameableCollection <T> implements Stremeable<T> {
+  constructor(protected collection: T[]) {}
+
+  abstract search(parametro: string, valor: string): T[];
+  abstract getCollectionItem(): T[];
+
+  public addItem(newItem: T): void {
+    this.collection.push(newItem);
+  }
+
+  public getNumberOfItems(): number {
+    return this.collection.length;
+  }
+}
+```
+* Objeto de tipo **Serie**:
+Antes de definir las subclases que heredarán de la super clase, creare diferentes objetos con sus propios atributos que permitan definir la información necesaria. En el caso de serie  creamos un objeto que  defina el titulo, año, temporadas, episodios y genero que tiene una serie determinada.
+
+```TypeScript
+export type series = {
+  titulo: string;
+  anio: number;
+  temporada: number;
+  episodios: number;
+  genero: string;
+}
+```
+* Objeto de tipo **Pelicula(Film)**:
+De igual forma se define el objeto pelicula, que posee un titulo, director, año, duracion y genero en el que se encasilla la pelicula.
+
+```TypeScript
+export type pelicula = {
+  titulo: string;
+  director: string;
+  anio: number;
+  duracion: number;
+  genero: string;
+}
+
+```
+* Objeto de tipo **Documental(Documentary)**:
+Y de esta forma también se crea un objeto documental que se encarga de definir el titulo, director, año, duracion, pais, fotografia y distribuidora del documental.
+
+```TypeScript
+export type documental = {
+  titulo: string;
+  director: string;
+  anio: number;
+  duracion: number;
+  pais: string;
+  fotografia: string;
+  distribuidora: string;
+}
+
+```
+
+* Clases hijas **Serie**, **Pelicula** ,**Documental**:
+A continuación se definen las subclases o clases hijas serie, pelicula y docu,mental que serán una coleccion de series streameables. para ello heredamos de la super clase *basicStreameableCollection* e y en nuestro constructor inicializamos un array de elementos de tipo Serie, Pelicula y Documental respectivamente, posteriormente implementamos los metodos search y getcollectionItem. 
+Para el modo search se le pasa dos parametros uno es el atributo que se desea fltrar y el segundo el valor que se desea buscar, por ejemplo dentro de una coleccion de series se quieres buscar por titulo el nombre Stranger Things, de esta forma se hace uso del método filter que proporciona Javascript, este  y se almacena el resultado de la busqueda
+```TypeScript
+import {BasicStreameableCollection} from "../basiStremeableCollection";
+import {series} from '../objects/objetSerie';
+
+export class Serie extends BasicStreameableCollection <series> {
+  constructor(protected collection: series[]) {
+    super(collection);
+  }
+
+  getCollectionItem(): series[] {
+    return this.collection;
+  }
+
+  search(parametro: string, valor: string): series[] {
+    let busqueda: series[] = [];
+    switch (parametro) {
+      case 'titulo':
+        busqueda = this.getCollectionItem().filter((item) => (item.titulo == valor));
+        return busqueda;
+        break;
+      case 'anio':
+        busqueda = this.getCollectionItem().filter((item) => (item.anio.toString() == valor));
+        return busqueda;
+        break;
+      case 'temporada':
+        busqueda = this.getCollectionItem().filter((item) => (item.temporada.toString() == valor));
+        return busqueda;
+        break;
+      case 'episodios':
+        busqueda = this.getCollectionItem().filter((item) => (item.episodios.toString() == valor));
+        return busqueda;
+        break;
+      case 'genero':
+        busqueda = this.getCollectionItem().filter((item) => (item.genero == valor));
+        return busqueda;
+        break;
+      default:
+        return [];
+        break;
+    }
+  }
+}
+
+```
+* Clase hija **Pelicula (Film)**:
+
+```TypeScript
+
+```
+* Clase hija **Documental(Documentary)**:
+
+
+```TypeScript
+
+```
 #### 2.3 Ejercicio 3: El cifrado indescifrable.
 
 ### Problemas y Soluciones.
