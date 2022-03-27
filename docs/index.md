@@ -726,7 +726,9 @@ export type documental = {
 
 * Clases hijas **Serie**, **Pelicula** ,**Documental**:
 A continuación se definen las subclases o clases hijas serie, pelicula y docu,mental que serán una coleccion de series streameables. para ello heredamos de la super clase *basicStreameableCollection* e y en nuestro constructor inicializamos un array de elementos de tipo Serie, Pelicula y Documental respectivamente, posteriormente implementamos los metodos search y getcollectionItem. 
-Para el modo search se le pasa dos parametros uno es el atributo que se desea fltrar y el segundo el valor que se desea buscar, por ejemplo dentro de una coleccion de series se quieres buscar por titulo el nombre Stranger Things, de esta forma se hace uso del método filter que proporciona Javascript, este  y se almacena el resultado de la busqueda
+
+Para el metodo search se le pasa dos parametros uno es el atributo que se desea fltrar y el segundo el valor que se desea buscar e iteramos en switch dependiendo del parametro por el que se quiera filtar. Por ejemplo, dentro de una coleccion de series se quieres buscar por titulo el nombre Stranger Things, de esta forma se hace uso del método filter que proporciona Javascript, este basicamente devuelve el elemento de un array que cumple la funcion que se le pasa, ene ste caso que el titulo del item sea el valor que ha introducido el usuario y el resultado se almacena en una variable que se devuelve, si desea mas informacion, puede revisar la bibliografia. Mientras que *getcollectionItem* devuelve la coleccion de series inicializada en el contructor,en caso de que no se encuentre devuelve un array vacio.  De esta forma igual que se hizo en la clase Serie se opera en la clase Documentary y Film.
+
 ```TypeScript
 import {BasicStreameableCollection} from "../basiStremeableCollection";
 import {series} from '../objects/objetSerie';
@@ -774,15 +776,190 @@ export class Serie extends BasicStreameableCollection <series> {
 * Clase hija **Pelicula (Film)**:
 
 ```TypeScript
+import {BasicStreameableCollection} from "../basiStremeableCollection";
+import {pelicula} from "../objects/objectFilm";
+
+export class Film extends BasicStreameableCollection <pelicula> {
+  constructor(protected collection: pelicula[]) {
+    super(collection);
+  }
+
+  getCollectionItem(): pelicula[] {
+    return this.collection;
+  }
+
+  search(parametro: string, valor: string): pelicula[] {
+    let busqueda: pelicula[] = [];
+    switch (parametro) {
+      case 'titulo':
+        busqueda = this.getCollectionItem().filter((item) => (item.titulo == valor));
+        return busqueda;
+        break;
+      case 'director':
+        busqueda = this.getCollectionItem().filter((item) => (item.director == valor));
+        return busqueda;
+        break;
+      case 'anio':
+        busqueda = this.getCollectionItem().filter((item) => (item.anio.toString() == valor));
+        return busqueda;
+        break;
+      case 'duracion':
+        busqueda = this.getCollectionItem().filter((item) => (item.duracion.toString() == valor));
+        return busqueda;
+        break;
+      case 'genero':
+        busqueda = this.getCollectionItem().filter((item) => (item.genero == valor));
+        return busqueda;
+        break;
+      default:
+        return [];
+        break;
+    }
+  }
+}
 
 ```
 * Clase hija **Documental(Documentary)**:
+```TypeScript
+import {BasicStreameableCollection} from "../basiStremeableCollection";
+import {documental} from "../objects/objectDocumentary";
+
+export class Documentary extends BasicStreameableCollection <documental> {
+  constructor(protected collection: documental[]) {
+    super(collection);
+  }
+
+  getCollectionItem(): documental[] {
+    return this.collection;
+  }
+  search(parametro: string, valor: string): documental[] {
+    let busqueda: documental[] = [];
+    switch (parametro) {
+      case 'titulo':
+        busqueda = this.getCollectionItem().filter((item) => (item.titulo == valor));
+        return busqueda;
+        break;
+      case 'director':
+        busqueda = this.getCollectionItem().filter((item) => (item.director == valor));
+        return busqueda;
+        break;
+      case 'anio':
+        busqueda = this.getCollectionItem().filter((item) => (item.anio.toString() == valor));
+        return busqueda;
+        break;
+      case 'pais':
+        busqueda = this.getCollectionItem().filter((item) => (item.pais == valor));
+        return busqueda;
+        break;
+      case 'duracion':
+        busqueda = this.getCollectionItem().filter((item) => (item.duracion.toString() == valor));
+        return busqueda;
+        break;
+      case 'fotografia':
+        busqueda = this.getCollectionItem().filter((item) => (item.fotografia == valor));
+        return busqueda;
+        break;
+      case 'distribuidora':
+        busqueda = this.getCollectionItem().filter((item) => (item.distribuidora == valor));
+        return busqueda;
+        break;
+      default:
+        return [];
+        break;
+    }
+  }
+}
+
+```
+
+Para las pruebas unitarias se crean tres colecciones una coleccion que recoge diversas series otra que recoge diversas peliculas y otra que recoger diferentes documentales, ademas se comprueba de que se puede añadir un elemento nuevo a la coleccion y que aumenta el tamaño de la coleccion en el numero de items que se han introducido. Además se prueba que se puede buscar con cada uno de los filtros que se ha especificado en el metodo search.
 
 
 ```TypeScript
+import 'mocha';
+import {expect} from 'chai';
+import {Serie} from '../src/ejercicio-2/subclass/serie';
+import {Film} from '../src/ejercicio-2/subclass/film';
+import {Documentary} from '../src/ejercicio-2/subclass/documentary';
+
+const serieCollection = new Serie([
+  {titulo: 'Stranger Things', anio: 2016, temporada: 4, episodios: 34, genero: 'suspense'},
+  {titulo: 'Vikings', anio: 2013, temporada: 6, episodios: 89, genero: 'drama-Historico'},
+  {titulo: 'The Punisher', anio: 2017, temporada: 2, episodios: 26, genero: 'accion'},
+]);
+
+serieCollection.addItem({titulo: 'Lucifer', anio: 2016, temporada: 6, episodios: 93, genero: 'fantasia-policia'});
+
+const filmCollection = new Film([
+  {titulo: 'White Chicks', director: 'Keenen Ivory Wayan', anio: 2004, duracion: 109, genero: 'comedia'},
+  {titulo: 'Avengers: Endgame', director: 'Anthony & Joe Ruso', anio: 2019, duracion: 181, genero: 'ciencia-ficcion'},
+  {titulo: 'El Gran Stan', director: 'Rob Schneider', anio: 2004, duracion: 109, genero: 'comedia'},
+  {titulo: 'Creed ', director: 'Ryan Coogler', anio: 2015, duracion: 133, genero: 'deportes'},
+  {titulo: 'The Ring', director: 'Gore Verbinski', anio: 2002, duracion: 116, genero: 'terror'},
+]);
+
+filmCollection.addItem({titulo: 'Nadie', director: 'Ilya Naishuller', anio: 2021, duracion: 92, genero: 'accion'});
+
+const documentaryCollection = new Documentary([
+  {titulo: 'Frente Antinuclear', director: 'Rebecca Cammisa', anio: 2017, duracion: 100, pais: 'Estados Unidos', fotografia: 'Claudia Raschke', distribuidora: 'HBO Documentary Films'},
+  {titulo: 'Lo que el pulpo me enseño', director: 'Pippa Ehrlich,& James Reed', anio: 2020, duracion: 85, pais: 'Sudafrica', fotografia: 'Roger Horrocks', distribuidora: 'Netflix'},
+  {titulo: 'The Beatles Anthology', director: 'Bob Smeaton', anio: 1995, duracion: 600, pais: 'Reino Unido', fotografia: 'Eugene O Connor', distribuidora: 'American Broadcasting Company (ABC)'},
+  {titulo: 'The Salt of the Earth', director: 'Wim Wenders', anio: 2014, duracion: 100, pais: 'Francia', fotografia: 'Hugo Barbier', distribuidora: 'Amazonas Images'},
+]);
+
+documentaryCollection.addItem({titulo: 'Searching for a Sugar man', director: 'Malik Bendjelloul', anio: 2012, duracion: 87, pais: 'Suecia', fotografia: 'Camilla Skagerström', distribuidora: 'Sony Pictures Classics'});
+
+describe('Pruebas Unitarias de la clase Serie', ()=>{
+  it('Test de instancia de la clase Serie', ()=>{
+    expect(serieCollection).to.exist;
+    expect(serieCollection).not.null;
+  });
+  it('Test de metodos de la clase Serie', ()=>{
+    expect(serieCollection.getNumberOfItems()).to.be.equal(4);
+    expect(serieCollection.search('titulo', 'Vikings')).to.be.eql([{titulo: 'Vikings', anio: 2013, temporada: 6, episodios: 89, genero: 'drama-Historico'}]);
+    expect(serieCollection.search('anio', '2016')).to.be.eql([{titulo: 'Stranger Things', anio: 2016, temporada: 4, episodios: 34, genero: 'suspense'}, {titulo: 'Lucifer', anio: 2016, temporada: 6, episodios: 93, genero: 'fantasia-policia'}]);
+    expect(serieCollection.search('temporada', '6')).to.be.eql([{titulo: 'Vikings', anio: 2013, temporada: 6, episodios: 89, genero: 'drama-Historico'}, {titulo: 'Lucifer', anio: 2016, temporada: 6, episodios: 93, genero: 'fantasia-policia'}]);
+    expect(serieCollection.search('episodios', '93')).to.be.eql([{titulo: 'Lucifer', anio: 2016, temporada: 6, episodios: 93, genero: 'fantasia-policia'}]);
+    expect(serieCollection.search('genero', 'accion')).to.be.eql([{titulo: 'The Punisher', anio: 2017, temporada: 2, episodios: 26, genero: 'accion'}]);
+  });
+});
+
+describe('Pruebas Unitarias de la clase Pelicula (Film)', ()=>{
+  it('Test de instancia de la clase Pelicula', ()=>{
+    expect(filmCollection).to.exist;
+    expect(filmCollection).not.null;
+  });
+  it('Test de metodos de la clase Pelicula', ()=>{
+    expect(filmCollection.getNumberOfItems()).to.be.equal(6);
+    expect(filmCollection.search('titulo', 'The Ring')).to.be.eql([{titulo: 'The Ring', director: 'Gore Verbinski', anio: 2002, duracion: 116, genero: 'terror'}]);
+    expect(filmCollection.search('director', 'Rob Schneider')).to.be.eql([{titulo: 'El Gran Stan', director: 'Rob Schneider', anio: 2004, duracion: 109, genero: 'comedia'}]);
+    expect(filmCollection.search('anio', '2004')).to.be.eql([{titulo: 'White Chicks', director: 'Keenen Ivory Wayan', anio: 2004, duracion: 109, genero: 'comedia'}, {titulo: 'El Gran Stan', director: 'Rob Schneider', anio: 2004, duracion: 109, genero: 'comedia'}]);
+    expect(filmCollection.search('genero', 'terror')).to.be.eql([{titulo: 'The Ring', director: 'Gore Verbinski', anio: 2002, duracion: 116, genero: 'terror'}]);
+    expect(filmCollection.search('duracion', '92')).to.be.eql([{titulo: 'Nadie', director: 'Ilya Naishuller', anio: 2021, duracion: 92, genero: 'accion'}]);
+  });
+});
+
+describe('Pruebas Unitarias de la clase Documental (Documentary)', ()=>{
+  it('Test de instancia de la clase Documental', ()=>{
+    expect(documentaryCollection).to.exist;
+    expect(documentaryCollection).not.null;
+  });
+  it('Test de metodos de la clase Documental', ()=>{
+    expect(documentaryCollection.getNumberOfItems()).to.be.equal(5);
+    expect(documentaryCollection.search('titulo', 'Frente Antinuclear')).to.be.eql([{titulo: 'Frente Antinuclear', director: 'Rebecca Cammisa', anio: 2017, duracion: 100, pais: 'Estados Unidos', fotografia: 'Claudia Raschke', distribuidora: 'HBO Documentary Films'}]);
+    expect(documentaryCollection.search('director', 'Bob Smeaton')).to.be.eql([{titulo: 'The Beatles Anthology', director: 'Bob Smeaton', anio: 1995, duracion: 600, pais: 'Reino Unido', fotografia: 'Eugene O Connor', distribuidora: 'American Broadcasting Company (ABC)'}]);
+    expect(documentaryCollection.search('anio', '2020')).to.be.eql([{titulo: 'Lo que el pulpo me enseño', director: 'Pippa Ehrlich,& James Reed', anio: 2020, duracion: 85, pais: 'Sudafrica', fotografia: 'Roger Horrocks', distribuidora: 'Netflix'}]);
+    expect(documentaryCollection.search('duracion', '100')).to.be.eql([{titulo: 'Frente Antinuclear', director: 'Rebecca Cammisa', anio: 2017, duracion: 100, pais: 'Estados Unidos', fotografia: 'Claudia Raschke', distribuidora: 'HBO Documentary Films'}, {titulo: 'The Salt of the Earth', director: 'Wim Wenders', anio: 2014, duracion: 100, pais: 'Francia', fotografia: 'Hugo Barbier', distribuidora: 'Amazonas Images'}]);
+    expect(documentaryCollection.search('pais', 'Suecia')).to.be.eql([{titulo: 'Searching for a Sugar man', director: 'Malik Bendjelloul', anio: 2012, duracion: 87, pais: 'Suecia', fotografia: 'Camilla Skagerström', distribuidora: 'Sony Pictures Classics'}]);
+    expect(documentaryCollection.search('fotografia', 'Hugo Barbier')).to.be.eql([{titulo: 'The Salt of the Earth', director: 'Wim Wenders', anio: 2014, duracion: 100, pais: 'Francia', fotografia: 'Hugo Barbier', distribuidora: 'Amazonas Images'}]);
+    expect(documentaryCollection.search('distribuidora', 'HBO Documentary Films')).to.be.eql([{titulo: 'Frente Antinuclear', director: 'Rebecca Cammisa', anio: 2017, duracion: 100, pais: 'Estados Unidos', fotografia: 'Claudia Raschke', distribuidora: 'HBO Documentary Films'}]);
+  });
+});
 
 ```
 #### 2.3 Ejercicio 3: El cifrado indescifrable.
+
+
 
 ### Problemas y Soluciones.
 
@@ -797,6 +974,7 @@ export class Serie extends BasicStreameableCollection <series> {
 * [Filtrar elementos en TypeScript](https://ed.team/blog/javascript-filtrar-elementos-de-un-array-con-filter)
 * [clases e interfaces genericas](https://desarrolloweb.com/articulos/generics-typescript.html)
 * [Principios SOLID](https://ull-esit-inf-dsi-2122.github.io/typescript-theory/typescript-solid.html)
+* [Metodo find de Javascript](https://developer.mozilla.org/es/docs/Web/JavaScript/Reference/Global_Objects/Array/find)
 
 * Referencias de las Peliculas, Documentales y Series utilizadas en las pruebas:
   * [Stranger Things](https://es.wikipedia.org/wiki/Stranger_Things)
