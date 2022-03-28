@@ -10,10 +10,7 @@ describe('Pruebas unitarias de la clase Prime number', () => {
     expect(primerosprimos).to.exist;
     expect(primerosprimos.getNumberOfElement()).to.be.eql(1);
   });
-  it('Pruebas de instancia de busqueda de n primos', () => {
-    expect(primerosprimos.primerosNPrimos(4)).to.be.eql([2, 3, 5, 7, 11]);
-  });
-  it('Pruebas de instancia de busqueda de n primos', () => {
+  it('Pruebas de instancia de busqueda de n hasta m numeros', () => {
     expect(primerosprimos.rangeNMPrimos(5, 11)).to.be.eql([5, 7, 11]);
   });
 });
